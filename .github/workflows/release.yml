@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build theme zip
+        run: |
+          zip -j theme.zip background.jpg settings.json
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: theme.zip
+          generate_release_notes: true
